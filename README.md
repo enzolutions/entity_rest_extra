@@ -1,5 +1,4 @@
 #Entity Rest Extra
-=================
 
 Extra Rest resources to enable access entities configuration
 
