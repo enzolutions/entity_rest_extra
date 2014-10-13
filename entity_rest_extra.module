@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Contains entity_rest_extra.module
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+
+function entity_rest_extra_help($route_name, RouteMatchInterface $route_match)
+{
+  switch ($route_name) {
+    // Main module help for the entity_rest_extra module.
+    case 'help.page.entity_rest_extra':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Extra Rest resources to enable access entities configuration') . '</p>';
+      return $output;
+    break;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+
+function entity_rest_extra_theme()
+{
+  $theme = [];
+
+  return $theme;
+}
