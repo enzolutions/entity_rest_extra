@@ -73,10 +73,10 @@ class EntityBundlesResource extends ResourceBase {
         return new ResourceResponse($bundles);
       }
 
-      throw new NotFoundHttpException(t('Log entry with ID @id was not found', array('@id' => $id)));
+      throw new NotFoundHttpException(t('Bundles for entity @entity were not found', array('@entity' => $entity)));
     }
 
-    throw new HttpException(t('No log entry ID was provided'));
+    throw new HttpException(t('Entity wasn\'t provided'));
   }
 
     /**

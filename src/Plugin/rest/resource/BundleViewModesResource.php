@@ -86,10 +86,10 @@ class BundleViewModesResource extends ResourceBase {
         return new ResourceResponse($view_modes);
       }
 
-      throw new NotFoundHttpException(t('Log entry with ID @id was not found', array('@id' => $id)));
+      throw new NotFoundHttpException(t('Views modes for @entity and @bundle were not found', array('@entity' => $entity, '@bundle' => $bundle)));
     }
 
-    throw new HttpException(t('No log entry ID was provided'));
+        throw new HttpException(t('Entity or Bundle weren\'t provided'));
   }
 
     /**
