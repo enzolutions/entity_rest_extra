@@ -4,6 +4,8 @@ Extra Rest resources to enable access entities configuration
 
 The following resources help to get admin information about Drupal 8 to be used by external implementation using Headless Drupal implementation.
 
+This idea was suggested as a patch to Drupal 8 Core more information at https://www.drupal.org/node/2355291#comment-9241689
+
 All resources require authentication with user with permission *Administer content types*
 
 ##Get Entity bundles
