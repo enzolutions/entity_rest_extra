@@ -8,6 +8,8 @@ This idea was suggested as a patch to Drupal 8 Core more information at https://
 
 All resources require authentication with an user with permission *Administer content types*
 
+Module generated using http://drupal.org/project/console
+
 ##Get Entity bundles
 
 End Point: http://example.com/bundles/{entity}
