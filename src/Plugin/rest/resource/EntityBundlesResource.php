@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Psr\Log\LoggerInterface;
 
 /**
- * Provides a resource for database watchdog log entries.
+ * Provides a resource to get bundles by entity.
  *
  * @RestResource(
  *   id = "entity_bundles",

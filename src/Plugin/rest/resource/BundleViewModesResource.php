@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Psr\Log\LoggerInterface;
 
 /**
- * Provides a resource for database watchdog log entries.
+ * Provides a resource to get view modes by entity and bundle.
  *
  * @RestResource(
  *   id = "bundle_view_modes",
