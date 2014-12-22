@@ -8,7 +8,23 @@ This idea was suggested as a patch to Drupal 8 Core more information at https://
 
 All resources require authentication with an user with permission *Administer content types*
 
-Module generated using http://drupal.org/project/console
+This project is used as part of project [Marionette Drupal](https://github.com/enzolutions/generator-marionette-drupal) Yeoman Generator
+
+Module generated using [Drupal Console](http://drupalconsole.com)
+
+#Usage
+
+Using the contrib module <a href="https://www.drupal.org/project/restui/git-instructions" target="_blank">Rest UI</a> (I recommend to use the git version until Drupal 8 get a first release) you can enable Rest Resources created by Entity Rest Extra.
+
+Using the REST UI enable Rest Resources created by Entity Rest Extra, setting the Authentication and format JSON is recommended as you can see in the following image.
+
+![REST UI](https://github.com/enzolutions/entity_rest_extra/blob/master/images/restui_bundle_entities_settings.png "REST UI")
+
+Using this settings the access will be granted to users with roles with permission **Administer content types**.
+
+Using the Chrome Application <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm">Postman - REST Client</a> you can execute an authenticated request to URL **http://example.com/bundles/node** as you can see in the following image.
+
+![REST UI](https://github.com/enzolutions/entity_rest_extra/blob/master/images/postman_rest_request.png"REST UI")
 
 ##Get Entity bundles
 
