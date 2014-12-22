@@ -24,7 +24,7 @@ Using this settings the access will be granted to users with roles with permissi
 
 Using the Chrome Application <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm">Postman - REST Client</a> you can execute an authenticated request to URL **http://example.com/bundles/node** as you can see in the following image.
 
-![REST UI](https://github.com/enzolutions/entity_rest_extra/blob/master/images/postman_rest_request.png"REST UI")
+![Postman - Rest Client](https://github.com/enzolutions/entity_rest_extra/blob/master/images/postman_rest_request.png "Postman - Rest Client")
 
 ##Get Entity bundles
 
