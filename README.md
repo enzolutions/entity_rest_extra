@@ -22,7 +22,7 @@ Using the REST UI enable Rest Resources created by Entity Rest Extra, setting th
 
 Users with a role with permission **Administer content types** will be able to consume Rest Resources
 
-Using the Chrome Application <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm">Postman - REST Client</a> you can execute an authenticated request to URL **http://example.com/entitu/node/bundles** as you can see in the following image.
+Using the Chrome Application <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm">Postman - REST Client</a> you can execute an authenticated request to URL **http://example.com/entituy/node/bundles** as you can see in the following image.
 
 ![Postman - Rest Client](https://github.com/enzolutions/entity_rest_extra/blob/master/images/postman_rest_request.png "Postman - Rest Client")
 
