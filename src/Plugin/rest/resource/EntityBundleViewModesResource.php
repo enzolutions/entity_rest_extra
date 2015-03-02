@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Definition of Drupal\entity_rest_extra\Plugin\rest\resource\BundleViewModesResource.
+ * Definition of Drupal\entity_rest_extra\Plugin\rest\resource\EntityBundleViewModesResource.
  */
 
 namespace Drupal\entity_rest_extra\Plugin\rest\resource;
@@ -25,11 +25,11 @@ use Psr\Log\LoggerInterface;
  *   id = "bundle_view_modes",
  *   label = @Translation("View modes by bundle"),
  *   uri_paths = {
- *     "canonical" = "/view_modes/{entity}/{bundle}"
+ *     "canonical" = "entity/{entity}/{bundle}/view_modes"
  *   }
  * )
  */
-class BundleViewModesResource extends ResourceBase {
+class EntityBundleViewModesResource extends ResourceBase {
 
   /**
    *  A curent user instance.
