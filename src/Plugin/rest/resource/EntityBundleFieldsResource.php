@@ -89,7 +89,7 @@ class EntityBundleFieldsResource extends ResourceBase
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    */
-  public function get($entity, $bundle) {
+  public function get($entity = NULL, $bundle = NULL) {
     if ($entity && $bundle) {
       $permission = 'Administer content types';
       if(!$this->currentUser->hasPermission($permission)) {
