@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Core\Entity\Query\QueryFactory;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -25,12 +27,12 @@ use Psr\Log\LoggerInterface;
  *   id = "Entity Bundle Resource Label",
  *   label = @Translation("entity_bundle_fields_resource"),
  *   uri_paths = {
- *     "canonical" = "/entity/{entity}/{bundle}/fields"
+ *     "canonical" = "/entity/{entity}/{bundle}/fields",
+ *     "https://www.drupal.org/entity/{entity}/{bundle}/fields" = "/entity/{entity}/{bundle}/fields",
  *   }
  * )
  */
-class EntityBundleFieldsResource extends ResourceBase
-{
+class EntityBundleFieldsResource extends ResourceBase {
 
   /**
    *  A curent user instance.
@@ -38,6 +40,20 @@ class EntityBundleFieldsResource extends ResourceBase
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+
+  /**
+   * The request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
+   * Drupal\Core\Entity\Query\QueryFactory definition.
+   *
+   * @var \Drupal\Core\Entity\Query\QueryFactory
+   */
+  protected $entityQuery;
 
   /**
    * Constructs a Drupal\rest\Plugin\ResourceBase object.
@@ -52,6 +68,10 @@ class EntityBundleFieldsResource extends ResourceBase
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *   A current user instance.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   Rrequest stack.
    */
   public function __construct(
     array $configuration,
@@ -59,10 +79,13 @@ class EntityBundleFieldsResource extends ResourceBase
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    AccountProxyInterface $current_user) {
+    AccountProxyInterface $current_user,
+    RequestStack $request_stack,
+    QueryFactory $entity_query) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-
     $this->currentUser = $current_user;
+    $this->requestStack = $request_stack->getCurrentRequest();
+    $this->entityQuery = $entity_query;
   }
 
   /**
@@ -75,7 +98,9 @@ class EntityBundleFieldsResource extends ResourceBase
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('rest'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('request_stack'),
+      $container->get('entity.query')
     );
   }
 
@@ -89,7 +114,12 @@ class EntityBundleFieldsResource extends ResourceBase
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    */
-  public function get($entity = NULL, $bundle = NULL) {
+  public function get($entity, $bundle = NULL) {
+    // Entity seems to be null for some reason???
+    if (empty($entity)) {
+      $entity = $this->requestStack->attributes->get('entity');
+    }
+
     if ($entity && $bundle) {
       $permission = 'Administer content types';
       if(!$this->currentUser->hasPermission($permission)) {
@@ -97,7 +127,7 @@ class EntityBundleFieldsResource extends ResourceBase
       }
 
       // Query by filtering on the ID by entity and bundle.
-      $ids = \Drupal::entityQuery('field_config')
+      $ids = $this->entityQuery->get('field_config')
         ->condition('id', $entity . '.' . $bundle . '.', 'STARTS_WITH')
         ->execute();
 
@@ -109,6 +139,8 @@ class EntityBundleFieldsResource extends ResourceBase
       }
 
       if (!empty($fields)) {
+        // Let the people change this as they want.
+        \Drupal::moduleHandler()->invokeAll('entity_rest_extra_alter_fields_output', [$fields]);
         return new ResourceResponse($fields);
       }
 
