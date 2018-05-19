@@ -67,6 +67,10 @@ Entity: could be any valid entity type i.e node or comment
 
 Bundle: could be any valid bundle for entity provided i.e page, article
 
+
+#### Hook Provided To alter output
+See entity_rest_extra.api.php
+
 ###Output Sample
 
 ```
@@ -90,4 +94,46 @@ Bundle: could be any valid bundle for entity provided i.e page, article
     .
     .
 }
+```
+
+##Get Fields by Entity and Bundle and From Display mode
+
+End Point: http://example.com/entity/fields/{entity}/{bundle}/{form_display}
+
+Entity: could be any valid entity type i.e node or comment
+
+Bundle: could be any valid bundle for entity provided i.e page, article
+
+form_display: this is the form display machine name  example 'default' 
+
+
+Motivation is to simplify field output for A Rest client to build a form from fields.
+
+
+#### Hook Provided To alter output
+See entity_rest_extra.api.php
+
+###Output Sample
+```
+{
+	"mode": "default",
+	"bundle": "page",
+	"entity": "node",
+	"shown": {
+		"body": {
+			"weight": 31,
+			"label": "Detailed Description",
+			"description": "Please give details of your issue.",
+			"name": "body",
+			"field_type": "text_with_summary",
+			"required": true,
+			"settings": {
+				"display_summary": false
+			},
+			"config_settings": []
+		},
+	"hidden": {
+	...
+	}
+		...
 ```

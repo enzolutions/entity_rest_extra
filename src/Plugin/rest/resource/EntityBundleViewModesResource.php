@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -25,7 +26,8 @@ use Psr\Log\LoggerInterface;
  *   id = "bundle_view_modes",
  *   label = @Translation("View modes by bundle"),
  *   uri_paths = {
- *     "canonical" = "entity/{entity}/{bundle}/view_modes"
+ *     "canonical" = "entity/{entity}/{bundle}/view_modes",
+ *     "https://www.drupal.org/entity/{entity}/{bundle}/view_modes" = "/entity/{entity}/{bundle}/view_modes",
  *   }
  * )
  */
@@ -54,6 +56,13 @@ class EntityBundleViewModesResource extends ResourceBase {
    */
   protected $configFactory;
 
+  /**
+   * The request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
   /*
    * Responds to GET requests.
    *
@@ -65,6 +74,11 @@ class EntityBundleViewModesResource extends ResourceBase {
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    */
   public function get($entity = NULL, $bundle = NULL) {
+    // Entity seems to be null for some reason???
+    if (empty($entity)) {
+      $entity = $this->requestStack->attributes->get('entity');
+    }
+
     if ($entity && $bundle) {
       $permission = 'Administer content types';
       if(!$this->currentUser->hasPermission($permission)) {
@@ -93,7 +107,7 @@ class EntityBundleViewModesResource extends ResourceBase {
         throw new HttpException(t('Entity or Bundle weren\'t provided'));
   }
 
-    /**
+  /**
    * Constructs a Drupal\rest\Plugin\ResourceBase object.
    *
    * @param array $configuration
@@ -106,6 +120,10 @@ class EntityBundleViewModesResource extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
+   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
+   *  A current user instance.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   Rrequest stack.
    */
   public function __construct(
     array $configuration,
@@ -114,12 +132,14 @@ class EntityBundleViewModesResource extends ResourceBase {
     LoggerInterface $logger,
     EntityManagerInterface $entity_manager,
     ConfigFactoryInterface $config_factory,
-    AccountProxyInterface $current_user) {
+    AccountProxyInterface $current_user,
+    RequestStack $request_stack) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 
     $this->entityManager = $entity_manager;
     $this->configFactory = $config_factory;
     $this->currentUser = $current_user;
+    $this->requestStack = $request_stack->getCurrentRequest();
   }
 
   /**
@@ -134,7 +154,8 @@ class EntityBundleViewModesResource extends ResourceBase {
       $container->get('logger.factory')->get('rest'),
       $container->get('entity.manager'),
       $container->get('config.factory'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('request_stack')
     );
   }
 }

@@ -10,7 +10,6 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_help().
  */
-
 function entity_rest_extra_help($route_name, RouteMatchInterface $route_match)
 {
   switch ($route_name) {
@@ -19,6 +18,7 @@ function entity_rest_extra_help($route_name, RouteMatchInterface $route_match)
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('Extra Rest resources to enable access entities configuration') . '</p>';
+      $output .= '<p>' . t('You may need rest_ui to enable the resources.') . '</p>';
       return $output;
     break;
   }
@@ -27,10 +27,8 @@ function entity_rest_extra_help($route_name, RouteMatchInterface $route_match)
 /**
  * Implements hook_theme().
  */
-
 function entity_rest_extra_theme()
 {
   $theme = [];
-
   return $theme;
 }
